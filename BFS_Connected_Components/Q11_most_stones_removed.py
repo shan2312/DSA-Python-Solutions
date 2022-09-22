@@ -5,10 +5,10 @@ def build_graph(stones):
     
     for index1, stone1 in enumerate(stones):
         for index2, stone2 in enumerate(stones):
-            if index1 != index2:
-                if stone1[0] == stone2[0] or stone1[1] == stone2[1]:
-                    adj_list[index1].append(index2)
-                    adj_list[index2].append(index1)
+            if index1 == index2:continue
+            if stone1[0] == stone2[0] or stone1[1] == stone2[1]:
+                adj_list[index1].append(index2)
+                adj_list[index2].append(index1)
     return adj_list
 
 def removeStones(stones):
@@ -24,16 +24,16 @@ def removeStones(stones):
             stone_new = q.popleft()
             count += 1
             for neighbor in adj_list[stone_new]:
-                if neighbor not in seen:
-                    q.append(neighbor)
-                    seen.add(neighbor)
+                if neighbor in seen:continue
+                q.append(neighbor)
+                seen.add(neighbor)
                     
         return count - 1
     
     max_count = 0
     for stone in range(len(stones)):
-        if stone not in seen:
-            max_count += get_count_of_removable_stones(stone)
+        if stone in seen:continue
+        max_count += get_count_of_removable_stones(stone)
             
     return max_count 
                     

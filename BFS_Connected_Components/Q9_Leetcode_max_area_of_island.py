@@ -13,7 +13,9 @@ def maxAreaOfIsland(grid):
             r, c = q.popleft()
             for dr, dc in directions:
                 row, col = r + dr, c + dc
-                if (row, col) not in seen and row in range(ROWS) and col in range(COLS) and grid[row][col] == 1:
+                is_in_bounds = row in range(ROWS) and col in range(COLS)
+                is_not_in_seen = (row, col) not in seen
+                if is_not_in_seen and is_in_bounds and grid[row][col] == 1:
                     q.append((row, col))
                     seen.add((row, col))
             count += 1

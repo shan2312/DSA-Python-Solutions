@@ -4,9 +4,9 @@ def build_graph(isConnected):
     
     for r in range(N):
         for c in range(N):
-            if r != c and isConnected[r][c] == 1:
-                adj_list[r].append(c)
-                adj_list[c].append(r)
+            if r == c or isConnected[r][c] != 1:continue
+            adj_list[r].append(c)
+            adj_list[c].append(r)
     return adj_list
 
 def findCircleNum(isConnected):
@@ -22,10 +22,10 @@ def findCircleNum(isConnected):
         while stack:
             present_city = stack.pop()
             for neighbor in adj_list[present_city]:
-                if neighbor not in seen:
-                    stack.append(neighbor)
-                    seen.add(neighbor)
-    
+                if neighbor in seen:continue
+                stack.append(neighbor)
+                seen.add(neighbor)
+
     count_provinces = 0
     for city in range(N):
         if city not in seen:

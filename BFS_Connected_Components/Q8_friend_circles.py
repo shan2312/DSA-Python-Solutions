@@ -4,9 +4,9 @@ def build_graph(grid):
     adj_list = [[] for i in range(N)]
     for r in range(N):
         for c in range(N):
-            if r != c and grid[r][c] == 1:
-                adj_list[r].append(c)
-                adj_list[c].append(r)
+            if r == c or grid[r][c] != 1:continue
+            adj_list[r].append(c)
+            adj_list[c].append(r)
     return adj_list
 
 def get_friend_circles_count(grid):

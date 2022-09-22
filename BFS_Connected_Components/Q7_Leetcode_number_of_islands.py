@@ -18,14 +18,16 @@ def numIslands(grid):
             r, c = q.popleft()
             for dr, dc in directions:
                 row, col = r + dr, c + dc
-                if row in range(ROWS) and col in range(COLS) and grid[row][col] == "1" and (row, col) not in seen:
+                is_in_bounds = row in range(ROWS) and col in range(COLS)
+                is_not_in_seen = (row, col) not in seen
+                if is_in_bounds and grid[row][col] == "1" and is_not_in_seen:
                     q.append((row, col))
                     seen.add((row, col))
     
     for r in range(ROWS):
         for c in range(COLS):
-            if (r,c) not in seen and grid[r][c] == "1":
-                traverse_island(r, c)
-                num_islands += 1
+            if (r,c) in seen or grid[r][c] != "1":continue
+            traverse_island(r, c)
+            num_islands += 1
                     
     return num_islands

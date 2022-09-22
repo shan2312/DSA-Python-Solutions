@@ -17,7 +17,10 @@ def floodFill(self, image, sr, sc, color):
             r, c = q.popleft()
             for dr, dc in directions:
                 row, col = r + dr, c + dc
-                if row in range(ROWS) and col in range(COLS) and (row, col) not in seen and image[row][col] == image[r][c]:
+                is_in_bounds = row in range(ROWS) and col in range(COLS)
+                is_not_in_seen = (row, col) not in seen
+                
+                if is_in_bounds and is_not_in_seen and image[row][col] == image[r][c]:
                     q.append((row, col))
                     seen.add((row, col))
                     

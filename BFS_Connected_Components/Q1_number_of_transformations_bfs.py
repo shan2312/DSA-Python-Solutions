@@ -23,9 +23,9 @@ def get_min_operations_bfs(start_num, target_num, additive_nums, multiplicative_
         neighbors = get_neighbors(new_num)
         
         for neighbor in neighbors:
-            if neighbor not in seen:
-                q.append((neighbor, depth + 1))
-                seen.add(neighbor)
+            if neighbor in seen: continue
+            q.append((neighbor, depth + 1))
+            seen.add(neighbor)
 
     return 0
 
