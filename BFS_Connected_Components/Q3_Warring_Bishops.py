@@ -1,30 +1,36 @@
 import collections
-def is_warring_bishops(bishops):
+
+def build_graph(bishops):
     adj_list = [[] for _ in range(len(bishops))]
-    
-    for index1, bishop1 in enumerate(bishops):
-        for index2, bishop2 in enumerate(bishops):
-            if index1 != index2:
-                x1, y1 = bishop1
-                x2, y2 = bishop2
-                if (x1 - y1) == (x2 - y2) or (x1 + y1) == (x2 + y2):
-                    adj_list[index1].append(index2)
-                    adj_list[index2].append(index1)
+
+    for bishop1_id, bishop1 in enumerate(bishops):
+        for bishop2_id, bishop2 in enumerate(bishops):
+            if bishop1_id != bishop2_id:
+                x_one, y_one = bishop1
+                x_two, y_two = bishop2
+                if (x_one - y_one) == (x_two - y_two) or (x_one + y_one) == (x_two + y_two):
+                    adj_list[bishop1_id].append(bishop2_id)
+                    adj_list[bishop2_id].append(bishop1_id)
+
+    return adj_list
         
-    visit = set()
-    def bfs(bishop):
-        q = collections.deque([bishop])
-        visit.add(bishop)
+def is_warring_bishops(bishops):
+    adj_list = build_graph(bishops)
+    seen = set()
+
+    def traverse_warring_bishops_from(bishop_id):
+        q = collections.deque([bishop_id])
+        seen.add(bishop_id)
         
         while q:
-            bishop_popped = q.popleft()
-            for neighbor in adj_list[bishop_popped]:
-                if neighbor not in visit:
-                    q.append(neighbor)
-                    visit.add(neighbor)
+            popped_bishop_id = q.popleft()
+            for neighboring_bishop_id in adj_list[popped_bishop_id]:
+                if neighboring_bishop_id not in seen:
+                    q.append(neighboring_bishop_id)
+                    seen.add(neighboring_bishop_id)
                     
-    bfs(0)
-    return len(visit) == len(bishops)
+    traverse_warring_bishops_from(0)
+    return len(seen) == len(bishops)
         
 if __name__ == '__main__':
     bishops = [[6, 2], [7, 3], [8, 4], [8, 2], [3, 7]]

@@ -1,4 +1,6 @@
 import collections
+
+# DFS
 def get_min_operations(start_num, target_num, additive_nums, multiplicative_nums):
     memo = collections.defaultdict(int)
     def helper(current_num):
