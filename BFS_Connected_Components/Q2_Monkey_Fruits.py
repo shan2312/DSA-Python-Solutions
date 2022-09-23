@@ -13,7 +13,7 @@ def build_graph(trees):
             
             distance = math.sqrt((x_one - x_two)**2 + (y_one - y_two)**2)
             
-            if vine_length_one < distance or vine_length_two < distance:continue
+            if vine_length_one < distance or vine_length_two < distance: continue
             adj_list[tree1_id].append(tree2_id)
             adj_list[tree2_id].append(tree1_id)
 

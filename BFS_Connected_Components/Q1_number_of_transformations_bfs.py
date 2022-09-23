@@ -1,17 +1,17 @@
 from collections import deque
-import queue
 
 INITIAL_COUNT_OF_OPERATIONS = 0
 CANNOT_REACH_TARGET = -1
 
-def get_next_nums_list(num, additive_nums, multiplicative_nums):
-    next_nums_from_multiplication = [num * multiplicative_num for multiplicative_num in multiplicative_nums]
-    next_nums_from_addition = [num + additive_num for additive_num in additive_nums]
-    
-    next_nums_from_multiplication.extend(next_nums_from_addition)
-    next_nums_list = next_nums_from_multiplication
+def get_neighbors(number, additive_nums, multiplicative_nums):
 
-    return next_nums_list
+    for number_to_add in additive_nums:
+        next_num = number + number_to_add
+        yield next_num
+
+    for number_to_multiply in multiplicative_nums:
+        next_num = number * number_to_multiply
+        yield next_num
 
 
 
@@ -29,9 +29,8 @@ def get_min_operations_to_target(start_num, target_num, additive_nums, multiplic
         elif num_so_far > target_num:
             continue
         
-        next_nums_list = get_next_nums_list(num_so_far, additive_nums, multiplicative_nums)
         
-        for next_num in next_nums_list:
+        for next_num in get_neighbors(num_so_far, additive_nums, multiplicative_nums):
             if next_num in seen: continue
             queue.append((next_num, count_operations_so_far + 1))
             seen.add(next_num)

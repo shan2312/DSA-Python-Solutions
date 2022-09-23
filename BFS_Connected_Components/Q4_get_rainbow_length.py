@@ -1,7 +1,7 @@
 from collections import deque
 
 RAINBOW_DICT = {'R': 'O', 'O': 'Y', 'Y': 'G', 'G':'B', 'B':'I', 'I':'V'}
-directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0]]
 INITIAL_LENGTH = 1
 START_RAINBOW_COLOR, LAST_RAINBOW_COLOR = 'R', 'V'
 CANNOT_CREATE_RAINBOW = float('infinity')
@@ -32,18 +32,20 @@ def get_rainbow_length_from(start_row, start_col, seen, colors):
         if colors[current_row][current_col] == LAST_RAINBOW_COLOR:
             return rainbow_length
         
-        for delta_row, delta_col in directions:
+        for delta_row, delta_col in DIRECTIONS:
             next_row, next_col = current_row + delta_row, current_col + delta_col
 
             if not is_in_bounds(colors, next_row, next_col):continue
             
             current_color, next_color = colors[current_row][current_col], colors[next_row][next_col]
-            is_in_seen = (next_row, next_col) in seen
             
-            if  is_next_in_sequence(current_color, next_color) and not is_in_seen:
-                queue.append((next_row, next_col, rainbow_length + 1))
-                seen.add((next_row, next_col))
-                
+            is_in_seen = (next_row, next_col) in seen
+            if is_in_seen: continue
+            if  not is_next_in_sequence(current_color, next_color): continue
+            
+            queue.append((next_row, next_col, rainbow_length + 1))
+            seen.add((next_row, next_col))
+            
     return CANNOT_CREATE_RAINBOW
 
 
