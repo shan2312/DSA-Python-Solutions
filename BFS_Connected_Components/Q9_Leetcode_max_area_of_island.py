@@ -1,30 +1,64 @@
-import collections
-def maxAreaOfIsland(grid):
-    ROWS, COLS = len(grid), len(grid[0])
+from collections import deque
+
+directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+LAND = 1
+
+def is_in_bounds(colors, row, col):
+    num_rows, num_cols = len(colors), len(colors[0])
+
+    is_row_in_bounds = row >= 0 and row < num_rows 
+    is_col_in_bounds = col >= 0 and col < num_cols
+    is_in_bounds = is_row_in_bounds and is_col_in_bounds
+
+    return is_in_bounds
+
+
+
+def get_island_area(start_row, start_col, seen, grid):
+    queue = deque([(start_row, start_col)])
+    seen.add((start_row, start_col))
+    
+    area_of_island = 0
+    while queue:
+        current_row, current_col = queue.popleft()
+
+        for delta_row, delta_col in directions:
+            next_row, next_col = current_row + delta_row, current_col + delta_col
+            
+            if not is_in_bounds(grid, next_row, next_col): continue
+            is_seen = (next_row, next_col) in seen
+
+            if not is_seen and grid[next_row][next_col] == LAND:
+                queue.append((next_row, next_col))
+                seen.add((next_row, next_col))
+        area_of_island += 1
+    return area_of_island
+
+
+
+def get_max_area_of_island(grid):
+    num_rows, num_cols = len(grid), len(grid[0])
     
     seen = set()
-    directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+
+    max_area_of_island = 0
     
-    def get_island_area(r, c):
-        q = collections.deque([(r, c)])
-        seen.add((r, c))
-        count = 0
-        while q:
-            r, c = q.popleft()
-            for dr, dc in directions:
-                row, col = r + dr, c + dc
-                is_in_bounds = row in range(ROWS) and col in range(COLS)
-                is_not_in_seen = (row, col) not in seen
-                if is_not_in_seen and is_in_bounds and grid[row][col] == 1:
-                    q.append((row, col))
-                    seen.add((row, col))
-            count += 1
-        return count
-    
-    max_count = 0
-    for r in range(ROWS):
-        for c in range(COLS):
-            if grid[r][c] == 1 and (r, c) not in seen:
-                max_count = max(max_count, get_island_area(r, c))
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if grid[row][col] == LAND and (row, col) not in seen:
+                max_area_of_island = max(max_area_of_island, get_island_area(row, col, seen, grid))
                 
-    return max_count
+    return max_area_of_island
+
+
+
+if __name__ == '__main__':
+    grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],
+            [0,0,0,0,0,0,0,1,1,1,0,0,0],
+            [0,1,1,0,1,0,0,0,0,0,0,0,0],
+            [0,1,0,0,1,1,0,0,1,0,1,0,0],
+            [0,1,0,0,1,1,0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0,0,0,0,1,0,0],
+            [0,0,0,0,0,0,0,1,1,1,0,0,0],
+            [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+    print(get_max_area_of_island(grid))

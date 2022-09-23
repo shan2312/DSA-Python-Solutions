@@ -1,33 +1,53 @@
-import collections
+from collections import deque
+directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+LAND = "1"
 
-def numIslands(grid):
+def is_in_bounds(colors, row, col):
+    num_rows, num_cols = len(colors), len(colors[0])
+
+    is_row_in_bounds = row >= 0 and row < num_rows 
+    is_col_in_bounds = col >= 0 and col < num_cols
+    is_in_bounds = is_row_in_bounds and is_col_in_bounds
+
+    return is_in_bounds
+
+def traverse_island(start_row, start_col, seen, grid):
+    queue = deque([(start_row, start_col)])
+    seen.add((start_row, start_col))
+    
+    while queue:
+        current_row, current_col = queue.popleft()
+        
+        for delta_row, delta_col in directions:
+            next_row, next_col  = current_row + delta_row, current_col + delta_col
+            
+            if not is_in_bounds(grid, next_row, next_col): continue
+            is_seen = (next_row, next_col) in seen
+            if grid[next_row][next_col] == LAND and not is_seen:
+                queue.append((next_row, next_col))
+                seen.add((next_row, next_col))
+
+
+def get_number_of_islands(grid):
     if not grid:
         return 0
 
-    directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-    ROWS, COLS = len(grid), len(grid[0])
-
+    num_rows, num_cols = len(grid), len(grid[0])
     seen = set()
-    num_islands = 0
-    
-    def traverse_island(r,c):
-        q = collections.deque([(r, c)])
-        seen.add((r, c))
-        
-        while q:
-            r, c = q.popleft()
-            for dr, dc in directions:
-                row, col = r + dr, c + dc
-                is_in_bounds = row in range(ROWS) and col in range(COLS)
-                is_not_in_seen = (row, col) not in seen
-                if is_in_bounds and grid[row][col] == "1" and is_not_in_seen:
-                    q.append((row, col))
-                    seen.add((row, col))
-    
-    for r in range(ROWS):
-        for c in range(COLS):
-            if (r,c) in seen or grid[r][c] != "1":continue
-            traverse_island(r, c)
+
+    num_islands = 0    
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if (row,col) in seen or grid[row][col] != LAND:continue
+            traverse_island(row, col, seen, grid)
             num_islands += 1
                     
     return num_islands
+
+
+if __name__ == '__main__':
+    grid = [["1","1","1","1","0"],
+            ["1","1","0","1","0"],
+            ["1","1","0","0","0"],
+            ["0","0","0","0","0"]]
+    print(get_number_of_islands(grid))

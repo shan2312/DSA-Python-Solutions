@@ -1,38 +1,46 @@
-def build_graph(isConnected):
-    N = len(isConnected)
-    adj_list = [[] for i in range(N)]
+def build_graph(is_connected_matrix):
+    count_cities = len(is_connected_matrix)
+    adj_list = [[] for i in range(count_cities)]
     
-    for r in range(N):
-        for c in range(N):
-            if r == c or isConnected[r][c] != 1:continue
-            adj_list[r].append(c)
-            adj_list[c].append(r)
+    for city1_id in range(count_cities):
+        for city2_id in range(count_cities):
+
+            if city1_id == city2_id or is_connected_matrix[city1_id][city2_id] != 1:continue
+            
+            adj_list[city1_id].append(city2_id)
+            adj_list[city2_id].append(city1_id)
     return adj_list
 
-def findCircleNum(isConnected):
-    N = len(isConnected)
-    adj_list = build_graph(isConnected)
-    
-    seen = set()
-    
-    def traverse_province(city):
-        stack = [city]
-        seen.add(city)
+
+def traverse_province(start_city, seen, adj_list):
+        stack = [start_city]
+        seen.add(start_city)
         
         while stack:
-            present_city = stack.pop()
-            for neighbor in adj_list[present_city]:
-                if neighbor in seen:continue
-                stack.append(neighbor)
-                seen.add(neighbor)
+            current_city = stack.pop()
 
+            for next_city in adj_list[current_city]:
+                if next_city in seen:continue
+                stack.append(next_city)
+                seen.add(next_city)
+
+def count_provinces(isConnected):
+    count_cities = len(isConnected)
+    adj_list = build_graph(isConnected)
+    seen = set()
+    
     count_provinces = 0
-    for city in range(N):
+    for city in range(count_cities):
         if city not in seen:
-            traverse_province(city)
+            traverse_province(city, seen, adj_list)
             count_provinces += 1
             
     return count_provinces
+
+
+if __name__ == '__main__':
+    is_connected = [[1,1,0],[1,1,0],[0,0,1]]
+    print(count_provinces(is_connected))
                     
                
 #         par = [i for i in range(len(isConnected))]

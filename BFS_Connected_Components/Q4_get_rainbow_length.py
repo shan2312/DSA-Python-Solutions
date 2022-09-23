@@ -1,49 +1,65 @@
-import collections
+from collections import deque
 
-def get_minimum_rainbow_length(colors):
-    rainbow_dict = {'R': 'O', 'O': 'Y', 'Y': 'G', 'G':'B', 'B':'I', 'I':'V'}
-    ROWS, COLS = len(colors), len(colors[0])
-    directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-    seen = set()
+RAINBOW_DICT = {'R': 'O', 'O': 'Y', 'Y': 'G', 'G':'B', 'B':'I', 'I':'V'}
+directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+INITIAL_LENGTH = 1
+START_RAINBOW_COLOR, LAST_RAINBOW_COLOR = 'R', 'V'
+CANNOT_CREATE_RAINBOW = float('infinity')
 
-    def is_next_in_sequence(current, next):
-        current_row, current_col = current[0], current[1]
-        next_row, next_col = next[0], next[1]
+def is_in_bounds(colors, row, col):
+    num_rows, num_cols = len(colors), len(colors[0])
 
-        is_in_bounds = next_row in range(ROWS) and next_col in range(COLS)
-        if not is_in_bounds:
-            return False
+    is_row_in_bounds = row >= 0 and row < num_rows 
+    is_col_in_bounds = col >= 0 and col < num_cols
+    is_in_bounds = is_row_in_bounds and is_col_in_bounds
 
-        is_same_color = colors[next_row][next_col] == colors[current_row][current_col]
-        is_next_color = colors[next_row][next_col] == rainbow_dict[colors[current_row][current_col]]
+    return is_in_bounds
+
+def is_next_in_sequence(current_color, next_color):
+        
+        is_same_color = (current_color == next_color)
+        is_next_color = (next_color == RAINBOW_DICT[current_color])
         
         return (is_same_color or is_next_color)
 
-    def get_rainbow_length_from(r, c):
-        q = collections.deque([(r, c, 1)])
-        seen.add((r, c))
+def get_rainbow_length_from(start_row, start_col, seen, colors):
+    queue = deque([(start_row, start_col, INITIAL_LENGTH)])
+    seen.add((start_row, start_col))
+    
+    while queue:
+        current_row, current_col, rainbow_length = queue.popleft()
         
-        while q:
-            r, c, depth = q.popleft()
-            if colors[r][c] == 'V':
-                return depth
-            
-            for dr, dc in directions:
-                row, col = r + dr, c + dc
-                if  is_next_in_sequence((r, c), (row, col)) and (row, col) not in seen:
-                    q.append((row, col, depth + 1))
-                    seen.add((row, col))
-                    
-        return float('inf')
+        if colors[current_row][current_col] == LAST_RAINBOW_COLOR:
+            return rainbow_length
+        
+        for delta_row, delta_col in directions:
+            next_row, next_col = current_row + delta_row, current_col + delta_col
 
-    min_length = float('inf')
-    for r in range(ROWS):
-        for c in range(COLS):
-            if (r, c) not in seen and colors[r][c] == 'R':
-                min_length = min(min_length, get_rainbow_length_from(r, c))
+            if not is_in_bounds(colors, next_row, next_col):continue
+            
+            current_color, next_color = colors[current_row][current_col], colors[next_row][next_col]
+            is_in_seen = (next_row, next_col) in seen
+            
+            if  is_next_in_sequence(current_color, next_color) and not is_in_seen:
+                queue.append((next_row, next_col, rainbow_length + 1))
+                seen.add((next_row, next_col))
+                
+    return CANNOT_CREATE_RAINBOW
+
+
+def get_minimum_rainbow_length(colors):
+    num_rows, num_cols = len(colors), len(colors[0])    
+    seen = set()
+
+    min_length = CANNOT_CREATE_RAINBOW
+    
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if (row, col) not in seen and colors[row][col] == START_RAINBOW_COLOR:
+                min_length = min(min_length, get_rainbow_length_from(row, col, seen, colors))
                 
     
-    return min_length if min_length != float('inf') else 0
+    return 0 if min_length == CANNOT_CREATE_RAINBOW else min_length
                 
                 
 if __name__ == '__main__':
