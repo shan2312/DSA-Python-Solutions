@@ -39,12 +39,13 @@ def get_max_count_of_removable_stones(stones):
     adj_list = build_graph(stones)     
     seen = set()
     
-    max_removable_stones_count = 0
+    total_removable_stones_count = 0
     for stone in range(len(stones)):
         if stone in seen:continue
-        max_removable_stones_count += get_count_of_removable_stones(stone, seen, adj_list)
+        removable_stones_count = get_count_of_removable_stones(stone, seen, adj_list)
+        total_removable_stones_count += removable_stones_count
             
-    return max_removable_stones_count 
+    return total_removable_stones_count 
                     
 if __name__ == "__main__":
     stones = [[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]

@@ -15,10 +15,13 @@ def is_in_bounds(colors, row, col):
 
 
 def get_island_area(start_row, start_col, seen, grid):
+    area_of_island = 0
+
+    if grid[start_row][start_col] != LAND:
+        return area_of_island
     queue = deque([(start_row, start_col)])
     seen.add((start_row, start_col))
     
-    area_of_island = 0
     while queue:
         current_row, current_col = queue.popleft()
 
@@ -45,8 +48,9 @@ def get_max_area_of_island(grid):
     
     for row in range(num_rows):
         for col in range(num_cols):
-            if grid[row][col] == LAND and (row, col) not in seen:
-                max_area_of_island = max(max_area_of_island, get_island_area(row, col, seen, grid))
+            if (row, col) in seen:continue
+            island_area = get_island_area(row, col, seen, grid)
+            max_area_of_island = max(max_area_of_island, island_area)
                 
     return max_area_of_island
 

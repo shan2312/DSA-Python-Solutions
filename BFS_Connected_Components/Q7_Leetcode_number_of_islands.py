@@ -12,6 +12,8 @@ def is_in_bounds(colors, row, col):
     return is_in_bounds
 
 def traverse_island(start_row, start_col, seen, grid):
+    if grid[start_row][start_col] != LAND: return 
+
     queue = deque([(start_row, start_col)])
     seen.add((start_row, start_col))
     
@@ -26,6 +28,7 @@ def traverse_island(start_row, start_col, seen, grid):
             if grid[next_row][next_col] == LAND and not is_seen:
                 queue.append((next_row, next_col))
                 seen.add((next_row, next_col))
+    return
 
 
 def get_number_of_islands(grid):
@@ -38,7 +41,7 @@ def get_number_of_islands(grid):
     num_islands = 0    
     for row in range(num_rows):
         for col in range(num_cols):
-            if (row,col) in seen or grid[row][col] != LAND:continue
+            if (row,col) in seen:continue
             traverse_island(row, col, seen, grid)
             num_islands += 1
                     

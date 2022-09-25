@@ -23,6 +23,10 @@ def is_next_in_sequence(current_color, next_color):
         return (is_same_color or is_next_color)
 
 def get_rainbow_length_from(start_row, start_col, seen, colors):
+    present_color = colors[start_row][start_col]
+    if present_color != START_RAINBOW_COLOR:
+        return CANNOT_CREATE_RAINBOW
+
     queue = deque([(start_row, start_col, INITIAL_LENGTH)])
     seen.add((start_row, start_col))
     
@@ -42,7 +46,7 @@ def get_rainbow_length_from(start_row, start_col, seen, colors):
             is_in_seen = (next_row, next_col) in seen
             if is_in_seen: continue
             if  not is_next_in_sequence(current_color, next_color): continue
-            
+
             queue.append((next_row, next_col, rainbow_length + 1))
             seen.add((next_row, next_col))
             
@@ -57,8 +61,9 @@ def get_minimum_rainbow_length(colors):
     
     for row in range(num_rows):
         for col in range(num_cols):
-            if (row, col) not in seen and colors[row][col] == START_RAINBOW_COLOR:
-                min_length = min(min_length, get_rainbow_length_from(row, col, seen, colors))
+            if (row, col) not in seen:
+                rainbow_length_from = get_rainbow_length_from(row, col, seen, colors)
+                min_length = min(min_length, rainbow_length_from)
                 
     
     return 0 if min_length == CANNOT_CREATE_RAINBOW else min_length

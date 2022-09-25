@@ -1,7 +1,9 @@
+from collections import deque, defaultdict
+
 class Solution:
     def build_graph(self, accounts):
         email_to_name = {}
-        email_to_account_ids = collections.defaultdict(set)
+        email_to_account_ids = defaultdict(set)
         
         for account_id, account in enumerate(accounts):
             name, *emails = account
@@ -38,10 +40,10 @@ class Solution:
         return email_group_after_merge
                                         
             
-    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+    def accountsMerge(self, accounts):
         email_to_name, email_to_account_ids = self.build_graph(accounts)
         
-        queue = collections.deque()
+        queue = deque()
         visited = set()
         merged_accounts = []
         

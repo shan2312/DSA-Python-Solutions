@@ -27,7 +27,7 @@ def traverse_image_from(start_row, start_col, seen, image):
 
                 if not is_in_bounds(image, next_row, next_col):continue
                 is_seen = (next_row, next_col) in seen
-                is_same_color = image[next_row][next_col] == image[current_row][current_col]
+                is_same_color = (image[next_row][next_col] == image[current_row][current_col])
                 
                 if  not is_seen and is_same_color:
                     queue.append((next_row, next_col))
@@ -35,7 +35,6 @@ def traverse_image_from(start_row, start_col, seen, image):
     
 
 def floodFill(image, sr, sc, color):
-    num_rows, num_cols = len(image), len(image[0])
     seen = set()
 
     traverse_image_from(sr, sc, seen, image)  

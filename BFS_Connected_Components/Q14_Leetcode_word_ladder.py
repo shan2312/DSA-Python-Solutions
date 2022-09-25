@@ -1,24 +1,23 @@
 from collections import deque
 
-class Solution:
-    def __init__(self):
-        self.COUNT_ALPHABETS = 26
-        self.START_ALPHABET_ASCII = ord('a')
-        self.INITIAL_COUNT_OF_OPERATIONS = 1
-        self.CANNOT_REACH_END_WORD = 0
-    
+COUNT_ALPHABETS = 26
+START_ALPHABET_ASCII = ord('a')
+INITIAL_COUNT_OF_OPERATIONS = 1
+CANNOT_REACH_END_WORD = 0
+
+class Solution:    
     def get_neighboring_string(self, word):
         
-        for pos, letter in enumerate(word):
-            for ascii_offset in range(self.COUNT_ALPHABETS):
-                new_letter = chr(self.START_ALPHABET_ASCII + ascii_offset)
+        for pos in range(len(word)):
+            for ascii_offset in range(COUNT_ALPHABETS):
+                new_letter = chr(START_ALPHABET_ASCII + ascii_offset)
                 neighboring_word = word[:pos] + new_letter + word[(pos + 1):]
                 yield neighboring_word
                 
                 
                 
     def get_minimum_operations_to_end_word(self, beginWord, endWord, word_set):
-        queue = deque([(beginWord, self.INITIAL_COUNT_OF_OPERATIONS)])
+        queue = deque([(beginWord, INITIAL_COUNT_OF_OPERATIONS)])
         visited = set()
         visited.add(beginWord)
         
@@ -35,12 +34,13 @@ class Solution:
                 queue.append((neighbor_string, current_count_of_operations + 1))
                 visited.add(neighbor_string)
                 
-        return self.CANNOT_REACH_END_WORD
+        return CANNOT_REACH_END_WORD
         
     
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+    def ladderLength(self, beginWord, endWord, wordList):
         word_set = set(wordList)
-        return self.get_minimum_operations_to_end_word(beginWord, endWord, word_set)
+        min_operations = self.get_minimum_operations_to_end_word(beginWord, endWord, word_set)
+        return min_operations
         
         
         
@@ -93,4 +93,5 @@ class Solution:
                         
 #         return 0
                         
-                
+                [100000,1,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000]
+50

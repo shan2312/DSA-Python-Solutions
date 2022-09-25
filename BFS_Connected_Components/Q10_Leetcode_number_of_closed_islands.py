@@ -24,6 +24,8 @@ def is_in_bounds(grid, row, col):
 
 
 def is_closed_island(grid, seen, start_row, start_col):
+    if grid[start_row][start_col] != LAND:
+        return False
 
     queue = deque([(start_row, start_col)])
     seen.add((start_row, start_col))
@@ -42,8 +44,8 @@ def is_closed_island(grid, seen, start_row, start_col):
             next_row, next_col = current_row + delta_row, current_col + delta_col
             
             is_seen = (next_row, next_col) in seen
-
-            if is_in_bounds(grid, next_row, next_col) and not is_seen and grid[next_row][next_col] == LAND:
+            is_land = grid[next_row][next_col] == LAND
+            if is_in_bounds(grid, next_row, next_col) and not is_seen and is_land:
                 queue.append((next_row, next_col))
                 seen.add((next_row, next_col))
     return is_closed
@@ -56,10 +58,11 @@ def count_closed_islands(grid):
     count_of_closed_islands = 0                
     for row in range(num_rows):
         for col in range(num_cols):
-            # We will only look at unexplored land which not in boundary locations
-            if grid[row][col] == LAND and (row, col) not in seen and not is_boundary_location(grid, row, col):
-                count_of_closed_islands += 1 if is_closed_island(grid, seen, row, col) else 0
-                
+            if (row, col) in seen:continue
+            is_closed = is_closed_island(grid, seen, row, col)
+            if not is_closed:continue
+            count_of_closed_islands += 1
+            
     return count_of_closed_islands
 
 

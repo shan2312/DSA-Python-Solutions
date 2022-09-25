@@ -1,6 +1,7 @@
 import math
 from collections import deque
 
+
 def build_graph(trees):
     adj_list = [[] for _ in range(len(trees))]
 
@@ -19,7 +20,7 @@ def build_graph(trees):
 
     return adj_list
 
-def get_max_reachable_fruit_from(start_tree_id, seen, adj_list):
+def get_max_reachable_fruits_from(start_tree_id, seen, adj_list):
     start_tree_fruits = trees[start_tree_id][2]
     queue = deque([(start_tree_id, start_tree_fruits)])
     seen.add(start_tree_id)
@@ -49,7 +50,8 @@ def get_max_fruits(trees):
 
     for tree_id in range(len(trees)):
         if tree_id in seen:continue
-        max_reachable_fruits = max(max_reachable_fruits, get_max_reachable_fruit_from(tree_id, seen, adj_list))
+        max_reachable_fruits_from = get_max_reachable_fruits_from(tree_id, seen, adj_list)
+        max_reachable_fruits = max(max_reachable_fruits, max_reachable_fruits_from)
         
     return max_reachable_fruits
 
