@@ -14,34 +14,33 @@ def is_in_bounds(colors, row, col):
     return is_in_bounds
 
 
-def traverse_image_from(start_row, start_col, seen, image):
+def traverse_image_from(start_row, start_col, seen, image, color):
     queue = deque([(start_row, start_col)])
     seen.add((start_row, start_col))
     
     while queue:
         for level in range(len(queue)):
             current_row, current_col = queue.popleft()
-
+            current_color = image[current_row][current_col]
+            image[current_row][current_col] = color
             for delta_row, delta_col in directions:
                 next_row, next_col = current_row + delta_row, current_col + delta_col
-
+                
                 if not is_in_bounds(image, next_row, next_col):continue
                 is_seen = (next_row, next_col) in seen
-                is_same_color = (image[next_row][next_col] == image[current_row][current_col])
+                is_same_color = (image[next_row][next_col] == current_color)
                 
-                if  not is_seen and is_same_color:
-                    queue.append((next_row, next_col))
-                    seen.add((next_row, next_col))
-    
+                if is_seen or not is_same_color: continue
+                queue.append((next_row, next_col))
+                seen.add((next_row, next_col))
+
+                
+
 
 def floodFill(image, sr, sc, color):
     seen = set()
 
-    traverse_image_from(sr, sc, seen, image)  
-
-    for row, col in list(seen):
-        image[row][col] = color
-        
+    traverse_image_from(sr, sc, seen, image, color)  
     return image
                 
         

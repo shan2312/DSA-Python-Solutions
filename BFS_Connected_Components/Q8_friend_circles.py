@@ -6,15 +6,18 @@ def build_graph(grid):
 
     for friend1_id in range(count_of_friends):
         for friend2_id in range(count_of_friends):
-
-            if friend1_id >= friend2_id or grid[friend1_id][friend2_id] != 1:continue
+            
+            is_upper_diagonal = friend1_id >= friend2_id
+            is_not_friends = grid[friend1_id][friend2_id] != 1
+            
+            if is_upper_diagonal or is_not_friends:continue
             
             adj_list[friend1_id].append(friend2_id)
             adj_list[friend2_id].append(friend1_id)
 
     return adj_list
 
-def traverse_friend_circle(start_friend_id, seen, adj_list, grid):
+def mark_friend_circle_as_visited(start_friend_id, seen, adj_list, grid):
     queue = deque([start_friend_id])
     seen.add(start_friend_id)
 
@@ -36,7 +39,7 @@ def get_friend_circles_count(grid):
 
     for friend_id in range(count_of_friends):
         if friend_id not in seen:
-            traverse_friend_circle(friend_id, seen, adj_list, grid)
+            mark_friend_circle_as_visited(friend_id, seen, adj_list, grid)
             count_of_friend_circles += 1
 
     return count_of_friend_circles

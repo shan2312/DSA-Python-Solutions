@@ -25,31 +25,33 @@ def is_in_bounds(grid, row, col):
 
 def is_closed_island(grid, seen, start_row, start_col):
     if grid[start_row][start_col] != LAND:
-        return False
+            return False
 
     queue = deque([(start_row, start_col)])
     seen.add((start_row, start_col))
 
     is_closed = True
-    
+
     while queue:
         current_row, current_col = queue.popleft()
         is_boundary = is_boundary_location(grid, current_row ,current_col)
 
         if is_boundary:
                 is_closed = False
-                return is_closed
 
         for delta_row, delta_col in directions:
             next_row, next_col = current_row + delta_row, current_col + delta_col
             
+            if not is_in_bounds(grid, next_row, next_col):continue
+            
             is_seen = (next_row, next_col) in seen
             is_land = grid[next_row][next_col] == LAND
-            if is_in_bounds(grid, next_row, next_col) and not is_seen and is_land:
-                queue.append((next_row, next_col))
-                seen.add((next_row, next_col))
+            
+            if is_seen or not is_land:continue
+            
+            queue.append((next_row, next_col))
+            seen.add((next_row, next_col))
     return is_closed
-
 
 def count_closed_islands(grid):
     num_rows, num_cols = len(grid), len(grid[0])

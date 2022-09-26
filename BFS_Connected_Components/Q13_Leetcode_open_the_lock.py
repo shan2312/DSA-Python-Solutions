@@ -1,14 +1,13 @@
 from collections import deque
 
+COUNT_WHEELS = 4
+turn_list = [-1, 1]
+num_slots = 10
+START_TURNS = 0
+CANNOT_REACH_TARGET = -1
+
 class Solution:
-    
-    def __init__(self):
-        self.COUNT_WHEELS = 4
-        self.turn_list = [-1, 1]
-        self.num_slots = 10
-        self.START_TURNS = 0
-        self.CANNOT_REACH_TARGET = -1
-    
+
     def get_neighbors(self, string):
             for wheel_id in range(self.COUNT_WHEELS):
                 wheel_number = int(string[wheel_id])
