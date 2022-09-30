@@ -15,7 +15,10 @@ from collections import deque
 
 CANNOT_FIND_ALL_FILES = -1
 
-def get_min_depth_to_find_all_files(directory_structure, required_files, root_directory):
+
+def get_min_depth_to_find_all_files(
+    directory_structure, required_files, root_directory
+):
 
     queue = deque()
     root_tuple = (root_directory, 0)
@@ -33,22 +36,19 @@ def get_min_depth_to_find_all_files(directory_structure, required_files, root_di
         if len(required_files) == 0:
             return distance_so_far
 
-        if '.' in present_node:
+        if "." in present_node:
             continue
 
         for neighbor in directory_structure[present_node]:
 
-            if neighbor in visited: continue
-            
+            if neighbor in visited:
+                continue
+
             neighbor_tuple = (neighbor, distance_so_far + 1)
             queue.append(neighbor_tuple)
             visited.add(neighbor)
 
     return CANNOT_FIND_ALL_FILES
-
-
-
-
 
 
 directory_structure = {
@@ -69,11 +69,23 @@ directory_structure = {
     "O": ["P", "Q"],
     "Q": ["R", "S"],
     "R": ["randomFile.js"],
-    "S": ["otherRandomFile.js"]
+    "S": ["otherRandomFile.js"],
 }
-required_files = ["1.js", "2.js", "3.js", "4.js", "5.js", "6.js", "7.js", "8.js", "9.js"]
+required_files = [
+    "1.js",
+    "2.js",
+    "3.js",
+    "4.js",
+    "5.js",
+    "6.js",
+    "7.js",
+    "8.js",
+    "9.js",
+]
 root_directory = "A"
 
-print(f"Your answer: {get_min_depth_to_find_all_files(directory_structure, required_files, root_directory)}")
+print(
+    f"Your answer: {get_min_depth_to_find_all_files(directory_structure, required_files, root_directory)}"
+)
 print(f"Correct answer: {6}")
 print()

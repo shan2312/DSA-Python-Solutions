@@ -7,27 +7,31 @@ and we’re asked to return the shortest path (as an array) from the start city 
 """
 
 from collections import defaultdict, deque
+
 NO_VALID_PATH = []
+
 
 def build_graph(edges):
     graph = defaultdict(list)
-    
+
     for node1, node2 in edges:
         graph[node1].append(node2)
         graph[node2].append(node1)
 
     return graph
 
+
 def construct_path(start_city, end_city, ideal_prev_city_map):
     curr_city = end_city
     path = []
-    
+
     while curr_city:
         path.append(curr_city)
         curr_city = ideal_prev_city_map[curr_city]
 
     path.reverse()
     return path
+
 
 def get_shortest_path(start_city, end_city, roads):
 
@@ -56,10 +60,10 @@ def get_shortest_path(start_city, end_city, roads):
 
     if end_city not in ideal_prev_city_map:
         return NO_VALID_PATH
-        
+
     return construct_path(start_city, end_city, ideal_prev_city_map)
 
 
-if __name__ == '__main__':
-    roads = [[5,7], [5,3], [7,6], [7,4], [3,9], [6,4], [4,10], [4,9]]
+if __name__ == "__main__":
+    roads = [[5, 7], [5, 3], [7, 6], [7, 4], [3, 9], [6, 4], [4, 10], [4, 9]]
     print(get_shortest_path(5, 9, roads))

@@ -16,6 +16,7 @@ def find_lowest_common_ancestor1(p, q):
 
     return p1
 
+
 # O(N) space-time
 def find_lowest_common_ancestor2(p, q):
     visited = set()
@@ -23,7 +24,7 @@ def find_lowest_common_ancestor2(p, q):
     while p or q:
         if p in visited:
             return p
-        if p: 
+        if p:
             visited.add(p)
             p = p.parent
 
@@ -32,8 +33,5 @@ def find_lowest_common_ancestor2(p, q):
         if q:
             visited.add(q)
             q = q.parent
-            
-    return 
 
-
-
+    return

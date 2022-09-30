@@ -7,6 +7,7 @@ class TreeNode:
 
 from collections import deque, defaultdict
 
+
 def vertical_order_traversal(root):
 
     if not root:
@@ -21,9 +22,9 @@ def vertical_order_traversal(root):
 
     while queue:
         curr_node, curr_column_order = queue.popleft()
-        
+
         vertical_order_hashmap[curr_column_order].append(curr_node.val)
-        
+
         min_col = min(min_col, curr_column_order)
         max_col = max(max_col, curr_column_order)
 

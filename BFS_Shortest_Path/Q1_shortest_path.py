@@ -5,6 +5,7 @@ from collections import deque, defaultdict
 
 CANNOT_REACH_TARGET = -1
 
+
 def build_graph(edges):
     graph = defaultdict(list)
 
@@ -25,7 +26,7 @@ def get_shortest_path_length(edges, start_node, target_node):
 
     visited = set()
     visited.add(start_node)
-    
+
     while queue:
         node, distance_so_far = queue.popleft()
 
@@ -34,7 +35,8 @@ def get_shortest_path_length(edges, start_node, target_node):
 
         neighbors = graph[node]
         for neighbor in neighbors:
-            if neighbor in visited: continue
+            if neighbor in visited:
+                continue
 
             neighbor_tuple = (neighbor, distance_so_far + 1)
             queue.append(neighbor_tuple)
@@ -42,15 +44,10 @@ def get_shortest_path_length(edges, start_node, target_node):
 
     return CANNOT_REACH_TARGET
 
-edges = [
-  ['w', 'x'],
-  ['x', 'y'],
-  ['z', 'y'],
-  ['z', 'v'],
-  ['w', 'v']
-]
-start_node = 'w'
-target_node = 'z'
+
+edges = [["w", "x"], ["x", "y"], ["z", "y"], ["z", "v"], ["w", "v"]]
+start_node = "w"
+target_node = "z"
 
 print(f"Your answer: {get_shortest_path_length(edges, start_node, target_node)}")
 print(f"Correct answer: {2}")

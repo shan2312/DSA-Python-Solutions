@@ -20,6 +20,6 @@ def get_ocean_view_building_indexes(heights):
     return stack
 
 
-if __name__ == '__main__':
-    print(get_ocean_view_building_indexes([4,2,3,1]))
-    print(get_ocean_view_building_indexes([2,2,2,2]))
+if __name__ == "__main__":
+    print(get_ocean_view_building_indexes([4, 2, 3, 1]))
+    print(get_ocean_view_building_indexes([2, 2, 2, 2]))

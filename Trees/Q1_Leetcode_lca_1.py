@@ -4,12 +4,14 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 res = []
+
 
 def find_lowest_common_ancestor(root, p, q):
     if root is None:
         return False
-    
+
     left = find_lowest_common_ancestor(root.left, p, q)
     right = find_lowest_common_ancestor(root.right, p, q)
     mid = 1 if root == p or root == q else 0
@@ -18,4 +20,3 @@ def find_lowest_common_ancestor(root, p, q):
         res.append(root)
 
     return left or right or mid
-
