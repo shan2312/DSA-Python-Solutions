@@ -8,18 +8,33 @@ def rotationalCipher(input_str, rotation_factor):
   
   for letter in input_str:
     
+    letter_code = ord(letter)
+
     if letter.isdigit():
-      ciphered_string.append(chr(FIRST_DIGIT_ASCII + (ord(letter) + rotation_factor - FIRST_DIGIT_ASCII) % 10))
+      new_letter = get_new_letter(letter_code, rotation_factor, FIRST_DIGIT_ASCII, 10)
+
     elif letter.isalpha():
+      
       if letter.isupper():
-        ciphered_string.append(chr(FIRST_CHAR_UPPER_ASCII + (ord(letter) + rotation_factor - FIRST_CHAR_UPPER_ASCII) % 26))
+        new_letter = get_new_letter(letter_code, rotation_factor, FIRST_CHAR_UPPER_ASCII, 26)
       elif letter.islower():
-        ciphered_string.append(chr(FIRST_CHAR_LOWER_ASCII + (ord(letter) + rotation_factor - FIRST_CHAR_LOWER_ASCII) % 26))
+        new_letter = get_new_letter(letter_code, rotation_factor, FIRST_CHAR_LOWER_ASCII, 26)
+
     else:
-      ciphered_string.append(letter)
+      new_letter = letter
+      
+    ciphered_string.append(new_letter)
       
   return "".join(ciphered_string)
 
 
+def get_new_letter(letter_code, rotation_factor, start_letter_code, count_of_letters):
+
+  new_letter_code = letter_code + rotation_factor
+  new_letter_code = new_letter_code - start_letter_code
+  
+  return chr(start_letter_code + new_letter_code % count_of_letters)
+
+
 if __name__ == '__main__':
-    print(rotationalCipher('1', 5))
+    print(rotationalCipher('xyz', 5))

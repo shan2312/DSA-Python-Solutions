@@ -17,29 +17,34 @@ def compare_string_linkedlists(list1, list2):
     start_index1 = start_index2 = 0
 
     while list1 or list2:
+
         if list1 and list1.val == '':
             list1 = list1.next
+            continue
 
         if list2 and list2.val == '':
             list2 = list2.next
+            continue
 
-        s1 = list1.val[start_index1] if list1 and list1.val != '' else ''
-        s2 = list2.val[start_index2] if list2 and list2.val != '' else ''
+        s1 = list1.val[start_index1] if list1 else ''
+        s2 = list2.val[start_index2] if list2 else ''
 
 
         if s1 != s2:
             return False
             
         else:
-            if start_index1 < len(list1.val) - 1:
+            if list1 and start_index1 < len(list1.val) - 1:
                 start_index1 += 1
-            else:
+            
+            elif list1 and start_index1 == len(list1.val) - 1:
                 start_index1 = 0
                 list1 = list1.next if list1 else list1
 
-            if start_index2 < len(list2.val) - 1:
+            if list2 and start_index2 < len(list2.val) - 1:
                 start_index2 += 1
-            else:
+            
+            elif list2  and start_index2 == len(list2.val) - 1:
                 start_index2 = 0
                 list2 = list2.next if list2 else list2
 
@@ -49,13 +54,14 @@ def compare_string_linkedlists(list1, list2):
 if __name__ == '__main__':
     l1 = Node('s')
     l1.next = Node('@')
-    l1.next.next = Node('')
+    l1.next.next = Node('h')
     l1.next.next.next = Node('ch')
+    l1.next.next.next.next = Node('')
 
-    l2 = Node('s@')
-    l2.next = Node('ch')
+    l2 = Node('s@h')
+    l2.next = Node('h')
     l2.next.next = Node('')
-    # l2.next.next.next = Node('')
+    l2.next.next.next = Node('')
     print(compare_string_linkedlists(l1, l2))
 
 
