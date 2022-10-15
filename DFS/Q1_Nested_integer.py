@@ -42,7 +42,7 @@
 #        """
 
 class Solution:
-    def depthSum(self, nestedList: List[NestedInteger]) -> int:
+    def depthSum(self, nestedList):
         
         
         def helper(nestedList, present_depth):
