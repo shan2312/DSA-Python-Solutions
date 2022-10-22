@@ -6,7 +6,7 @@ class MinStack:
     def push(self, val):
         self.stack.append(val)
         
-        isNewMin = len(self.min_stack) == 0 or val < self.getMin()
+        isNewMin = len(self.min_stack) == 0 or val <= self.getMin()
         
         if isNewMin:
             self.min_stack.append(val)
