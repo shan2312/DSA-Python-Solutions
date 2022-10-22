@@ -10,7 +10,7 @@ class RandomizedSet:
         if val in self.value_to_idx:
             return False
 
-        self.random_list.add(val)
+        self.random_list.append(val)
         last_idx = len(self.random_list) - 1
         self.value_to_idx[val] = last_idx
         return True
@@ -41,4 +41,3 @@ class RandomizedSet:
     def getRandom(self):
         random_num = random.choice(self.random_list)
         return random_num
-
