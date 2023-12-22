@@ -18,7 +18,7 @@ def get_different_number_brute(arr):
 
 
 def get_different_number_efficient(arr):
-    index = 0
+    index = 0 
     size = len(arr)
 
     while index < size:
