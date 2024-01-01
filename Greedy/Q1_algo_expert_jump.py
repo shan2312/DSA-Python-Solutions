@@ -10,6 +10,7 @@ def is_jump_possible(nums):
 
     return goal == 0
 
+# TC: O(N**2), SC: O(N)
 def is_jump_possible_top_down_dp(nums):
     dp = {}
     def dfs_helper(index):
@@ -28,6 +29,7 @@ def is_jump_possible_top_down_dp(nums):
     
     return dfs_helper(0)
 
+# TC: O(N**2), O(N)
 def is_jump_possible_bottom_up_dp(nums):
     dp = [False] * (len(nums))
     dp[-1] = True
