@@ -16,7 +16,7 @@ def get_permutations_opt(nums):
     ans = []
     def backtrack(current_list):
         if len(current_list) == len(nums):
-            ans.append(current_list)
+            ans.append(current_list[:])
 
         for num in nums:
             if num in current_list:

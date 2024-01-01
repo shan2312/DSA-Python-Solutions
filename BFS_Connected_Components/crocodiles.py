@@ -1,3 +1,5 @@
+
+
 from collections import defaultdict, deque
 import math
 
@@ -45,12 +47,10 @@ def get_bounds_of_crocodile_group(starting_croc_id, adjacency_dict, visited_set,
     return min_x, max_x, min_y, max_y
 
 def is_pond_covered(min_x, max_x, min_y, max_y, r, W, H):
-    is_lower_left_diagonal_covered = (min_x <= r and min_y <= r)
-    is_upper_left_diagonal_covered = (W - max_x) <= r and (H - max_y) <= r
-    is_vertical_line_covered = min_y <= r and (H - max_y) <= r
-    is_horizontal_line_covered = min_x <= r and (W - max_x) <= r
-
-    return is_lower_left_diagonal_covered or is_upper_left_diagonal_covered or is_vertical_line_covered or is_horizontal_line_covered
+    is_left_or_top_blocked = min_x <= r or (H - max_y) <= r
+    is_right_or_down_clocked = min_y <= r or (W - max_x) <= r
+    
+    return is_left_or_top_blocked and is_right_or_down_clocked
 
 
 def can_fish_reach(position_crocodiles, r, W, H):
@@ -67,4 +67,4 @@ def can_fish_reach(position_crocodiles, r, W, H):
 
 
 
-print(can_fish_reach([[0, 0.5],[0.3, 0.5], [0.6, 0.5]], 0.3, 1, 1))
+print(can_fish_reach([[0, 0.5],[0.3, 0.5], [0.6, 0.5], [0.9, 0.5]], 0.3, 1, 1))
