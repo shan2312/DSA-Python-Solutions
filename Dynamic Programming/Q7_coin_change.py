@@ -71,6 +71,17 @@ def get_minimum_coins_for_amount_2(coins: List[int], amount: int) -> int:
 
     return -1 if dp[0][amount] == float('inf') else dp[0][amount]
 
+def get_minimum_number_of_coins_3(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    for i in range(len(coins)):
+        for j in range(len(dp)):
+            if j < coins[i]:
+                continue
+            dp[j] = min(dp[j], 1 + dp[j - coins[i]])
+
+    return -1 if dp[-1] == float('inf') else dp[-1]
 
 if __name__ == '__main__':
-    print(get_minimum_coins_for_amount([1], 0))
+    print(get_minimum_number_of_coins_3([1, 2, 5], 11))
