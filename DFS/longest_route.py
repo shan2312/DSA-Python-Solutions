@@ -18,16 +18,16 @@ def get_neighbors(row, col, grid):
 
 from collections import defaultdict
 def get_longest_possible_route(grid, source, target):
-    cache = defaultdict(int)
+    # cache = defaultdict(int)
     def get_longest_possible_route_from(grid, source, visited_set):
     
         if source == target:
-            cache[source] = 0
-            return cache[source]
+            # cache[source] = 0
+            return 0
 
-        if source in cache:
-            print(source, cache[source])
-            return cache[source]
+        # if source in cache:
+        #     print(source, cache[source])
+        #     return cache[source]
 
         visited_set.add(source)
         
@@ -38,8 +38,8 @@ def get_longest_possible_route(grid, source, target):
             max_path = max(max_path, (1 + get_longest_possible_route_from(grid, (neighbor_row, neighbor_col), visited_set)))
         visited_set.remove(source)
 
-        cache[source] = max_path
-        return cache[source]
+        # cache[source] = max_path
+        return max_path
 
     visited_set = set()
     return get_longest_possible_route_from(grid, source, visited_set)
