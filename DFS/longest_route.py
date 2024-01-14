@@ -1,3 +1,6 @@
+# This problem cannot be memoized because state is not just the source, it also includes the visited_set
+
+
 DIRECTIONS = [[0, 1], [1, 0], [-1, 0], [0, -1]]
 
 

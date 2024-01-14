@@ -9,14 +9,9 @@ res = []
 
 
 def find_lowest_common_ancestor(root, p, q):
-    if root is None:
-        return False
-
-    left = find_lowest_common_ancestor(root.left, p, q)
-    right = find_lowest_common_ancestor(root.right, p, q)
-    mid = 1 if root == p or root == q else 0
-
-    if (left + right + mid) >= 2:
-        res.append(root)
-
-    return left or right or mid
+    if root.val > max(p.val, q.val):
+        return find_lowest_common_ancestor(root.left, p, q)
+    elif root.val < min(p.val, q.val):
+        return find_lowest_common_ancestor(root.right, p, q)
+    else:
+        return root
