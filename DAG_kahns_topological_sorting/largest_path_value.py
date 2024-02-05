@@ -87,6 +87,19 @@ def get_largest_path_value(edges, nodes_str):
     return max([alphabet_count for value in paths for alphabet_count in value]) if sum(indegree.values()) == 0 else -1
 
 
+
+
+def get_largest_path_value_binary_search(edges, nodes_str):
+    graph, indegree = build_graph(edges, len(nodes_str))
+
+    min_path_value, max_path_value = 0, len(nodes_str)
+
+    while min_path_value <= max_path_value:
+        middle_path_value = (min_path_value + max_path_value)//2
+
+        is_valid = 
+        if 
+
 print(get_largest_path_value([(0, 1),
  (0, 2),
  (2, 3),
