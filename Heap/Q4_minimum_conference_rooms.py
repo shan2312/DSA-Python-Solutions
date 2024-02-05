@@ -16,10 +16,11 @@ class CountConferenceRooms:
                 heapq.heappop(minimum_end_times)
 
             heapq.heappush(minimum_end_times, end)
-
+        what is this doing ?
+            
         return len(minimum_end_times)
 
 
 if __name__ == '__main__':
     count_conf = CountConferenceRooms()
-    print(count_conf.get_minimum_number_of_conference_rooms([[0,30],[5,10],[15,20]]))
+    print(count_conf.get_minimum_number_of_conference_rooms([[0, 6], [3, 9], [5, 12], [14, 20], [18, 22], [19, 24], [19.5, 24]]))

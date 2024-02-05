@@ -38,7 +38,9 @@ class DetectRectangles:
         for (x, y), count in self.points_map.items():
             if x == xq and y == yq:
                 continue
+
             if abs(x - xq) == 0 or abs(y - yq) == 0: continue
+            
             if (xq, y) not in self.points_map or (x, yq) not in self.points_map:
                 continue
             
